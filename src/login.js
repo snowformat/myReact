@@ -13,7 +13,7 @@ class Login extends React.Component {
         }
     }
     handleChange = (event) => {
-        console.log(event.target)
+        // console.log(event.target)
         const {name, value} = event.target;
         this.setState({
             [name]: value
@@ -27,7 +27,7 @@ class Login extends React.Component {
             pwd: this.state.pwd 
         }).then( data => {
             // console.log(data.data)
-            if(data.meta. status === 200) {
+            if(data.meta.status === 200) {
                 localStorage.setItem('mytoken',data.data.token)
                 history.push('/home')
             }

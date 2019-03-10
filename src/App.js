@@ -3,6 +3,7 @@ import { BrowserRouter  as Router, Route, Switch, Redirect} from "react-router-d
 import './App.css';
 import Login from "./login.js"
 import axios from "axios";
+import Main from "./modules/main"
 
 axios.defaults.baseURL = 'http://47.96.21.88:8086/'; 
 // axios.interceptors.request.use(function (config) {
@@ -28,7 +29,7 @@ class App extends React.Component {
       <Router>
         <Switch>
           <Route exact path="/" component={Login}></Route>
-          <Route path="/home" component={Home}></Route>
+          <Route path="/home" component={Main}></Route>
           <Route path="/show" component={Show}></Route>
           <Redirect to="/"></Redirect>
         </Switch>
@@ -36,9 +37,7 @@ class App extends React.Component {
     );
   }
 }
-const  Home = () => {
-  return <div>Home</div>
-}
+
 const Show = () => {
   return <div>Show</div>
 }
