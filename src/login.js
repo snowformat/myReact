@@ -1,25 +1,9 @@
 import React from  "react";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
-
-
-// axios.interceptors.request.use(function (config) {
-//     // Do something before request is sent
-//     return config;
-//   }, function (error) {
-//     // Do something with request error
-//     return Promise.reject(error);
-//   });
-
-// 添加一个响应拦截器
-axios.interceptors.response.use(function (response) {
-    // Do something with response data
-    return response.data;
-  }, function (error) {
-    // Do something with response error
-    return Promise.reject(error);
-  });
-
+import { Form} from "semantic-ui-react";
+import "semantic-ui-css/semantic.min.css";
+import "./login.css";
 class Login extends React.Component {
     constructor (props) {
         super(props);
@@ -28,41 +12,59 @@ class Login extends React.Component {
             pwd: ""
         }
     }
-    handleUname = (event) => {
-        this.setState ({
-           uname: event.target.value
-        })
-    }
-    handlePwd = (event) => {
+    handleChange = (event) => {
+        console.log(event.target)
+        const {name, value} = event.target;
         this.setState({
-            pwd: event.target.value
+            [name]: value
         })
     }
     handleSubmit = () => {
         const {history}  = this.props;
         // console.log(this.state.uname, this.state.pwd)
-        axios.post("http://47.96.21.88:8086/users/login", {
+        axios.post("users/login", {
             uname: this.state.uname,
             pwd: this.state.pwd 
         }).then( data => {
             // console.log(data.data)
-            if(data.meta.status === 200) {
+            if(data.meta. status === 200) {
                 localStorage.setItem('mytoken',data.data.token)
                 history.push('/home')
             }
         })
     }
     render() {
+        const {uname, pwd} = this.state;
         return (
-            <div>
-                <div>登录</div>
-                <div>
-                    用户名：<input type="text" name="uname" value={this.state.uname} onChange={this.handleUname}/>
+            <div className="login-container">
+                <div className="login-title">登录</div>
+                <div className="login-form">
+                    <Form onSubmit={this.handleSubmit}>
+                        <Form.Input
+                           icon="user"
+                           iconPosition="left"
+                           required
+                           size="big"
+                           name="uname"
+                           value={uname}
+                           onChange={this.handleChange}
+                           placeholder="请输入用户名......"
+                        />
+                        <Form.Input
+                           icon="lock"
+                           required
+                           type="password"
+                           name="pwd"
+                           iconPosition="left"
+                           value={pwd}
+                           onChange={this.handleChange}
+                           size="big"
+                           placeholder="请输入密码....."
+                        />
+                        <Form.Button positive content="登录" />
+                    </Form>
                 </div>
-                <div>
-                    密码：<input type="text" name="pwd" value={this.state.pwd} onChange={this.handlePwd} />
-                </div>
-                <button onClick={this.handleSubmit}>提交</button>
+                
             </div>
         )
     }
